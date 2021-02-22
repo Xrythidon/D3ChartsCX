@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./styles/styles.scss";
+
+import data from "./data";
+
+import GaugeChart from "./components/charts/GaugeChart";
+import AreaChart from "./components/charts/AreaChart";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  const gaugeData = data["gaugeData"];
+  const areaData = data["areaData"];
+
+  useEffect(() => {
+
+    console.log(gaugeData)
+  }, []);
+
+  return <div className="App">
+  Hello
+
+      {gaugeData.map((data, index) => (
+        <GaugeChart key={index} gaugeData={data} innerRadius={46} outerRadius={50}/>
+      ))}
+
+
+      <AreaChart data={areaData["Quality Score"]} width={400} height={200}/>
+
+
+
+
+
+  </div>;
 }
 
 export default App;

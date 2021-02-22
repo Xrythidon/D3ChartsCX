@@ -1,0 +1,75 @@
+@import "./variables";
+
+.App {
+    text-align: center;
+  }
+  
+  .container {
+
+  }
+  
+  svg {
+    border: 1px solid $arc-grey;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    transition: all 123ms;
+    fill: $arc;
+    cursor: pointer;
+  }
+  
+  .svg--selected {
+   fill: $arc-mouseon;
+   border: 1px solid $arc-mouseon;
+   background-color: rgba($color: $arc-mouseon, $alpha: 0.1);
+  }
+
+
+  .svg {
+    background-color: none;
+  }
+  
+  
+  .arc__primary {
+      fill: $arc;
+  }
+  .arc__primary--selected {
+      fill: $arc-mouseon;
+  }
+
+  .arc__text {
+    font-size: 18px;
+  }
+
+  .arc__score {
+    transform: translateY(-5%);
+  }
+  
+  .arc__name {
+    font-size: 18px;
+    transform: translateY(-40%);
+  }
+
+  .arc__vsly {
+    transform: translateY(5%);
+    font-size: 13px;
+    fill: $arc-grey;
+  }
+  .arc__sample {
+    font-size: 15px;
+    transform: translateY(40%);
+    font-weight: 300;
+    fill: black;
+
+  }
+
+  // svg:hover .arc__primary {
+  //   fill: $arc-mouseon;
+  // }
+
+  // .arc__primary:hover {
+  //   fill: $arc-mouseon;
+  // }
+  
+  .arc__secondary {
+    fill: $arc-grey;
+  }
