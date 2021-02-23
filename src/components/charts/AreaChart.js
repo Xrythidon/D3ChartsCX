@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import * as d3 from "d3";
+import { transition } from "d3";
 
 function AreaChart({ data, width, height }) {
   useEffect(() => {
     console.log(data);
     drawChart();
-  }, [data]);
+  }, [data, width]);
 
   function drawChart() {
     d3.select(".area__container").select("svg").remove();
-
 
     // Add logic to draw the chart here
     const margin = { top: 50, right: 50, bottom: 50, left: 50 };
@@ -40,12 +40,14 @@ function AreaChart({ data, width, height }) {
 
     const yScale = d3.scaleLinear().range([height, 0]).domain([0, yMaxValue]);
 
-    const area = d3
-      .area()
-      .x((d, index) => xScale(index))
-      .y0(height)
-      .y1((d) => yScale(d.score))
-      .curve(d3.curveMonotoneX);
+    const area = function (datum, boolean) {
+      return d3
+        .area()
+        .x((d, index) => (boolean ? xScale(index) : 0))
+        .y0( height)
+        .y1((d) => yScale(d.score))
+        .curve(d3.curveMonotoneX)(datum);
+    };
 
     const line = d3
       .line()
@@ -55,14 +57,17 @@ function AreaChart({ data, width, height }) {
 
     svg
       .append("g")
+
       .attr("class", "x-axis")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom().scale(customScale).tickSize(15));
+      .attr("transform", `translate(0,${height+10})`)
+      .call(d3.axisBottom().scale(customScale).tickSize(15).tickPadding(10));
 
     // Add the line
     svg
       .append("path")
       .datum(data)
+      .transition()
+      .duration(1000)
       .attr("class", "line")
       .attr("fill", "none")
       .attr("stroke", "#0071c5")
@@ -70,7 +75,14 @@ function AreaChart({ data, width, height }) {
       .attr("d", line);
 
     // Add the area
-    svg.append("path").datum(data).attr("class", "area").attr("d", area);
+    svg
+      .append("path")
+      .datum(data)
+      .attr("class", "area")
+      .attr("d", (d) => area(d, false))
+      .transition()
+      .duration(1000)
+      .attr("d", (d) => area(d, true))
 
     // Area gradient
     const defs = svg.append("defs");
@@ -98,21 +110,17 @@ function AreaChart({ data, width, height }) {
       .attr("stop-opacity", 0.2);
 
     // Circles
-    const circle = svg
-      .append("g")
-      .selectAll("circle")
-      .data(data)
-      .enter()
-     
-     circle.append("circle")
+    const circle = svg.append("g").selectAll("circle").data(data).enter();
+
+    circle
+      .append("circle")
       .attr("class", "circle")
       .attr("r", 8)
       .attr("cx", (d) => customScale(d.date))
       .attr("cy", (d) => yScale(d.score));
-      
 
-      circle
-    //  .selectAll("circle")
+    circle
+      //  .selectAll("circle")
       .append("text")
       .data(data)
       .attr("x", (d) => customScale(d.date))
@@ -121,7 +129,7 @@ function AreaChart({ data, width, height }) {
       .attr("text-anchor", "middle")
       .attr("dx", "8px")
       .attr("dy", "-16px")
-   //   .attr("alignment-baseline", "middle")
+      //   .attr("alignment-baseline", "middle")
       .text((d) => d.score + "%");
   }
 

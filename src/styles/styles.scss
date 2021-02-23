@@ -4,6 +4,10 @@
   text-align: center;
 }
 
+svg {
+  transition: all 123ms;
+}
+
 .gauge {
   border: 1px solid $arc-grey;
   margin-right: 15px;

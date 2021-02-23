@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-const GaugeChart = ({ gaugeData, outerRadius, innerRadius }) => {
+const GaugeChart = ({ gaugeData, index, outerRadius, innerRadius, setDataDefault }) => {
   const svgRef = useRef();
   const margin = {
     top: 30,
@@ -17,20 +17,24 @@ const GaugeChart = ({ gaugeData, outerRadius, innerRadius }) => {
 
   useEffect(() => {
     drawChart();
-  }, [data]);
+  }, [gaugeData]);
 
   const drawChart = () => {
-    // Remove the old svg
-    d3.select(".container").select(".gauge").remove();
+
+    if(index == 0){
+
+      setDataDefault(gaugeData.name)
+    }
 
     // Create new svg
     const svg = d3
       .select(".container")
       .append("svg")
-      .attr("class", "gauge")
+      .attr("class", (index === 0) ? "gauge gauge--selected" :"gauge" )
       .attr("width", width)
       .attr("height", height)
       .on("click", function () {
+        setDataDefault(gaugeData.name)
         console.log(gaugeData.name);
         d3.selectAll(".gauge").attr("class", "gauge");
         d3.selectAll(".gauge").select("path").attr("class", null);
