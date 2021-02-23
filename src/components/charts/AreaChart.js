@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
 import * as d3 from "d3";
 
-function AreaChart({data, width, height}) {
-    
-
+function AreaChart({ data, width, height }) {
   useEffect(() => {
-      console.log(data);
+    console.log(data);
     drawChart();
   }, [data]);
 
@@ -30,51 +28,36 @@ function AreaChart({data, width, height}) {
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-
     const xScale = d3
       .scaleLinear()
       .domain([xMinValue, xMaxValue])
       .range([0, width]);
 
+    const customScale = d3
+      .scaleOrdinal()
+      .domain(data.map((d) => d.date))
+      .range(data.map((d, i) => xScale(i)));
+
     const yScale = d3.scaleLinear().range([height, 0]).domain([0, yMaxValue]);
 
     const area = d3
       .area()
-      .x((d) => xScale(d.label))
+      .x((d, index) => xScale(index))
       .y0(height)
-      .y1((d) => yScale(d.value));
+      .y1((d) => yScale(d.score))
+      .curve(d3.curveMonotoneX);
 
     const line = d3
       .line()
-      .x((d) => xScale(d.label))
-      .y((d) => yScale(d.value))
+      .x((d, index) => xScale(index))
+      .y((d) => yScale(d.score))
       .curve(d3.curveMonotoneX);
 
-    // Grid
-    svg
-      .append("g")
-      .attr("class", "grid")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(xScale).tickSize(-height).tickFormat(""));
-    svg
-      .append("g")
-      .attr("class", "grid")
-      .call(d3.axisLeft(yScale).tickSize(-width).tickFormat(""));
     svg
       .append("g")
       .attr("class", "x-axis")
       .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom().scale(xScale).tickSize(15));
-    svg.append("g").attr("class", "y-axis").call(d3.axisLeft(yScale));
-
-    // Add the area
-    svg
-      .append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("fill", "red")
-      .attr("fill-opacity", 0.5)
-      .attr("d", area);
+      .call(d3.axisBottom().scale(customScale).tickSize(15));
 
     // Add the line
     svg
@@ -82,37 +65,64 @@ function AreaChart({data, width, height}) {
       .datum(data)
       .attr("class", "line")
       .attr("fill", "none")
-      .attr("stroke", "#69b3a2")
-      .attr("stroke-width", 4)
+      .attr("stroke", "#0071c5")
+      .attr("stroke-width", 2)
       .attr("d", line);
 
-      const focus = svg
-      .append('g')
-      .attr('class', 'focus')
-      .style('display', 'none');
+    // Add the area
+    svg.append("path").datum(data).attr("class", "area").attr("d", area);
 
-  focus.append('circle').attr('r', 5).attr('class', 'circle');
+    // Area gradient
+    const defs = svg.append("defs");
 
-  const tooltip = d3
-      .select('#container')
-      .append('div')
-      .attr('class', 'tooltip')
-      .style('opacity', 0);
+    const gradient = defs
+      .append("linearGradient")
+      .attr("id", "svgGradient")
+      .attr("x1", "0%")
+      .attr("x2", "0%")
+      .attr("y1", "0%")
+      .attr("y2", "100%");
 
-    svg
-      .append("rect")
-      .attr("class", "overlay")
-      .attr("width", width)
-      .attr("height", height)
-      .style("opacity", 0)
-      .on("mouseover", () => {
-        focus.style("display", null);
-      })
-      .on("mouseout", () => {
-        tooltip.transition().duration(300).style("opacity", 0);
-      })
- 
+    gradient
+      .append("stop")
+      .attr("class", "start")
+      .attr("offset", "10%")
+      .attr("stop-color", "#0071c5")
+      .attr("stop-opacity", 0.8);
 
+    gradient
+      .append("stop")
+      .attr("class", "end")
+      .attr("offset", "100%")
+      .attr("stop-color", "#00aeef")
+      .attr("stop-opacity", 0.2);
+
+    // Circles
+    const circle = svg
+      .append("g")
+      .selectAll("circle")
+      .data(data)
+      .enter()
+     
+     circle.append("circle")
+      .attr("class", "circle")
+      .attr("r", 8)
+      .attr("cx", (d) => customScale(d.date))
+      .attr("cy", (d) => yScale(d.score));
+      
+
+      circle
+    //  .selectAll("circle")
+      .append("text")
+      .data(data)
+      .attr("x", (d) => customScale(d.date))
+      .attr("y", (d) => yScale(d.score))
+      .attr("class", "circle__text")
+      .attr("text-anchor", "middle")
+      .attr("dx", "8px")
+      .attr("dy", "-16px")
+   //   .attr("alignment-baseline", "middle")
+      .text((d) => d.score + "%");
   }
 
   return <div className="area__container" />;

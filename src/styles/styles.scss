@@ -1,75 +1,82 @@
 @import "./variables";
 
 .App {
-    text-align: center;
-  }
-  
-  .container {
+  text-align: center;
+}
 
-  }
-  
-  svg {
-    border: 1px solid $arc-grey;
-    margin-right: 15px;
-    margin-bottom: 15px;
-    transition: all 123ms;
-    fill: $arc;
-    cursor: pointer;
-  }
-  
-  .svg--selected {
-   fill: $arc-mouseon;
-   border: 1px solid $arc-mouseon;
-   background-color: rgba($color: $arc-mouseon, $alpha: 0.1);
-  }
+.gauge {
+  border: 1px solid $arc-grey;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  transition: all 123ms;
+  fill: $arc;
+  cursor: pointer;
+}
+
+.gauge--selected {
+  fill: $arc-mouseon;
+  border: 1px solid $arc-mouseon;
+  background-color: rgba($color: $arc-mouseon, $alpha: 0.1);
+}
+
+.arc__primary {
+  fill: $arc;
+}
+.arc__primary--selected {
+  fill: $arc-mouseon;
+}
+
+.arc__text {
+  font-size: 18px;
+}
+
+.arc__score {
+  transform: translateY(-5%);
+}
+
+.arc__name {
+  font-size: 18px;
+  transform: translateY(-40%);
+}
+
+.arc__vsly {
+  transform: translateY(5%);
+  font-size: 13px;
+  fill: $arc-grey;
+}
+.arc__sample {
+  font-size: 15px;
+  transform: translateY(40%);
+  font-weight: 300;
+  fill: black;
+}
+
+// svg:hover .arc__primary {
+//   fill: $arc-mouseon;
+// }
+
+// .arc__primary:hover {
+//   fill: $arc-mouseon;
+// }
+
+.arc__secondary {
+  fill: $arc-grey;
+}
+
+// Area Chart
+
+.area {
+  fill: url(#svgGradient);
+}
+
+.circle {
+  fill: $arc;
+  stroke: white;
+  stroke-width: 3;
+
+}
 
 
-  .svg {
-    background-color: none;
-  }
-  
-  
-  .arc__primary {
-      fill: $arc;
-  }
-  .arc__primary--selected {
-      fill: $arc-mouseon;
-  }
-
-  .arc__text {
-    font-size: 18px;
-  }
-
-  .arc__score {
-    transform: translateY(-5%);
-  }
-  
-  .arc__name {
-    font-size: 18px;
-    transform: translateY(-40%);
-  }
-
-  .arc__vsly {
-    transform: translateY(5%);
-    font-size: 13px;
-    fill: $arc-grey;
-  }
-  .arc__sample {
-    font-size: 15px;
-    transform: translateY(40%);
-    font-weight: 300;
-    fill: black;
-
-  }
-
-  // svg:hover .arc__primary {
-  //   fill: $arc-mouseon;
-  // }
-
-  // .arc__primary:hover {
-  //   fill: $arc-mouseon;
-  // }
-  
-  .arc__secondary {
-    fill: $arc-grey;
-  }
+.circle__text {
+  font-size: 12px;
+}

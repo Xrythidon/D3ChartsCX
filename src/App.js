@@ -24,7 +24,7 @@ function App() {
       ))}
 
 
-      <AreaChart data={areaData["Quality Score"]} width={400} height={200}/>
+      <AreaChart data={areaData["Quality Score"]} width={600} height={200}/>
 
 
 
