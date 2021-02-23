@@ -15,19 +15,13 @@ const GaugeChart = ({ gaugeData, outerRadius, innerRadius }) => {
 
   const data = [gaugeData.score, 100 - gaugeData.score];
 
-  const colorScale = d3
-    .scaleSequential()
-    .interpolator(d3.interpolateCool)
-    .domain([0, data.length]);
-
   useEffect(() => {
-    const svg = d3.select(svgRef.current);
-
-    drawChart(svg);
+    drawChart();
   }, [data]);
 
   const drawChart = () => {
-    d3.select("svg").select(".container").remove();
+    // Remove the old svg
+    d3.select(".container").select(".gauge").remove();
 
     // Create new svg
     const svg = d3
@@ -37,11 +31,11 @@ const GaugeChart = ({ gaugeData, outerRadius, innerRadius }) => {
       .attr("width", width)
       .attr("height", height)
       .on("click", function () {
-        console.log(gaugeData.name)
+        console.log(gaugeData.name);
         d3.selectAll(".gauge").attr("class", "gauge");
-        d3.selectAll(".gauge").select("path").attr("class", null)
+        d3.selectAll(".gauge").select("path").attr("class", null);
         d3.select(this).attr("class", "gauge gauge--selected");
-        d3.select(this).select('path').attr("class", "arc__primary--selected")
+        d3.select(this).select("path").attr("class", "arc__primary--selected");
       })
       .append("g")
       .attr("transform", `translate(${width / 2}, ${height / 2})`);
@@ -63,7 +57,7 @@ const GaugeChart = ({ gaugeData, outerRadius, innerRadius }) => {
       .append("path")
       .attr("d", arcGenerator)
       .attr("class", (_, i) => (i === 0 ? "arc__primary" : "arc__secondary"))
-      
+
       .style("stroke", "black")
       .style("stroke-width", 0);
 
@@ -97,11 +91,9 @@ const GaugeChart = ({ gaugeData, outerRadius, innerRadius }) => {
       .text(`Sample: ${gaugeData.sample}`);
   };
 
-  return (
-    <>
-      <div className="container"></div>
-    </>
-  );
+  return <>
+  <div className="container"></div>
+  </>;
 };
 
 export default GaugeChart;

@@ -9,7 +9,7 @@ function AreaChart({ data, width, height }) {
 
   function drawChart() {
     d3.select(".area__container").select("svg").remove();
-    d3.select(".area__container").select(".tooltip").remove();
+
 
     // Add logic to draw the chart here
     const margin = { top: 50, right: 50, bottom: 50, left: 50 };

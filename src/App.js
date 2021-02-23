@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useMediaQuery} from "react-responsive";
 import "./styles/styles.scss";
 
 import data from "./data";
@@ -7,6 +8,9 @@ import GaugeChart from "./components/charts/GaugeChart";
 import AreaChart from "./components/charts/AreaChart";
 
 function App() {
+  const isDesktopOrLaptop = useMediaQuery({
+    query: '(min-width: 900px)'
+  })
 
   const gaugeData = data["gaugeData"];
   const areaData = data["areaData"];
@@ -19,18 +23,22 @@ function App() {
   return <div className="App">
   Hello
 
-      {gaugeData.map((data, index) => (
-        <GaugeChart key={index} gaugeData={data} innerRadius={46} outerRadius={50}/>
-      ))}
+
+      <GaugeChart key={index} gaugeData={data} innerRadius={46} outerRadius={50}/>
 
 
-      <AreaChart data={areaData["Quality Score"]} width={600} height={200}/>
-
-
-
+     {isDesktopOrLaptop && <h1>Potato</h1>}
 
 
   </div>;
 }
 
 export default App;
+
+
+/*
+
+      {gaugeData.map((data, index) => (
+        <GaugeChart key={index} gaugeData={data} innerRadius={46} outerRadius={50}/>
+      ))}
+*/
