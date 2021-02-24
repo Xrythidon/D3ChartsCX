@@ -105,22 +105,24 @@ svg {
 }
 
 .arc__score {
-  transform: translateY(-5%);
+  transform: translateY(-5px);
 }
 
 .arc__name {
   font-size: 18px;
-  transform: translateY(-40%);
+  transform: translateY(-65px);
 }
 
 .arc__vsly {
-  transform: translateY(5%);
+  transform: translateY(10px);
   font-size: 13px;
   fill: $arc-grey;
 }
 .arc__sample {
   font-size: 15px;
-  transform: translateY(40%);
+  transform: translateY(65px);
+
+  //-webkit-transform: translateY(40%);
   font-weight: 300;
   fill: black;
 }
