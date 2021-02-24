@@ -1,9 +1,14 @@
 @import "./variables";
 
-
 //Mixins
+@mixin for-tablet-portrait-up {
+  @media (min-width: 600px) {
+    @content;
+  }
+}
+
 @mixin for-tablet-landscape-up {
-  @media (min-width: 900px) {
+  @media (min-width: 950px) {
     @content;
   }
 }
@@ -28,7 +33,7 @@
 
 //App
 
-.App {
+.app {
   text-align: center;
 }
 
@@ -36,7 +41,41 @@ svg {
   transition: all 123ms;
 }
 
+.chart__container {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
+  @include for-tablet-landscape-up() {
+    flex-direction: row;
+  }
+}
+
 // Gauge
+
+.gauge__container {
+  flex-flow: row wrap;
+  max-width: calc(100%);
+  justify-content: center;
+  order: 2;
+
+  @include for-tablet-portrait-up() {
+    max-width: 80%;
+  }
+
+  @include for-tablet-landscape-up() {
+    max-width: 100.333%;
+    order: 1;
+  }
+
+  @include for-desktop-up(){
+    max-width: 30%;
+  }
+
+}
 
 .gauge {
   border: 1px solid $arc-grey;
@@ -91,6 +130,15 @@ svg {
 
 // Area Chart
 
+.area__container {
+  order: 1;
+  margin-bottom: 25px;
+
+  @include for-tablet-landscape-up() {
+    order: 2;
+  }
+}
+
 .area {
   fill: url(#svgGradient);
 }
@@ -115,7 +163,6 @@ svg {
   position: fixed;
   position: fixed;
   height: 100vh;
-
 }
 
 .nav--burger {
@@ -166,10 +213,9 @@ svg {
   justify-content: space-between;
   padding-bottom: 8px;
 
-  @include for-tablet-landscape-up(){
+  @include for-tablet-landscape-up() {
     margin-left: 7%;
   }
-
 }
 
 .status__title {
@@ -177,8 +223,6 @@ svg {
   font-size: 1.5rem;
   text-shadow: 2px 2px black;
   display: block;
-
-
 }
 
 .status__links {

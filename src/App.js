@@ -1,57 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { useMediaQuery } from "react-responsive";
-import "./styles/styles.scss";
-import "./styles/burgermenu.scss";
+import React, { useState } from "react";
 
+import "./styles/styles.scss";
 import data from "./data";
 
+//PageParts
+import Nav from "./pageParts/Nav";
+import Main from "./pageParts/Main";
+import Gauge from "./pageParts/Gauge";
+import Area from "./pageParts/Area";
+
+// Components
 import GaugeChart from "./components/charts/GaugeChart";
 import AreaChart from "./components/charts/AreaChart";
 
-import Template from "./template/index";
-
 function App() {
-  const isTablet = useMediaQuery({
-    query: "(min-width: 900px)",
-  });
-
   const gaugeData = data["gaugeData"];
   const areaData = data["areaData"];
 
   const [dataDefault, setDataDefault] = useState(gaugeData[0].name);
 
-
-  useEffect(() => {
-    console.log(gaugeData);
-  }, []);
-
   return (
-    <Template/>
+    <div className="app">
+      <Nav />
+      <Main title={dataDefault} />
+      <div className="chart__container">
+        <Gauge
+          gaugeData={gaugeData}
+          GaugeChart={GaugeChart}
+          setDataDefault={setDataDefault}
+        />
+        <Area
+          dataDefault={dataDefault}
+          AreaChart={AreaChart}
+          areaData={areaData}
+        />
+      </div>
+    </div>
   );
 }
 
 export default App;
 
-
 /* 
 
-    <div className="App">
-      <Template/>
-      <h1>{dataDefault}</h1>
-      {gaugeData.map((data, index) => (
-        <GaugeChart
-          key={index}
-          index={index}
-          setDataDefault={setDataDefault}
-          gaugeData={data}
-          innerRadius={46}
-          outerRadius={50}
-        />
-      ))}
-      {dataDefault && (isTablet ? (
-        <AreaChart data={areaData[dataDefault]} width={500} height={150} />
-      ) : (
-        <AreaChart data={areaData[dataDefault]} width={300} height={100} />
-      ))}
-    </div>
+
     */

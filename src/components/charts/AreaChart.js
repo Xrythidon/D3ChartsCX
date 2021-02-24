@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import * as d3 from "d3";
-import { transition } from "d3";
 
 function AreaChart({ data, width, height }) {
   useEffect(() => {
-    console.log(data);
     drawChart();
   }, [data, width]);
 
